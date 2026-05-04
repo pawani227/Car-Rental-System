@@ -1,9 +1,10 @@
 .home-page {
     min-height: 90vh;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    padding-top: 80px;
+    justify-content: flex-start;
+    padding-top: 120px;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -18,19 +19,147 @@
     background: rgba(0, 0, 0, 0.35);
 }
 
-.home-page h1 {
+.home-overlay h1 {
     position: relative;
     z-index: 1;
-    color: white;
-    font-size: 3rem;
+    color: rgba(255, 255, 255, 0.649);
+    font-size: 2.5rem;
+    margin-top: 5px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    text-align: center;
+    margin-bottom: 50px;
+    margin-right: 40px;
+}
+
+.home-sub {
+    position: relative;
+    z-index: 1;
+    color: rgba(255, 255, 255, 0.9);
+    margin-top: 8px;
+    margin-bottom: 18px;
+}
+
+.search-card {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    align-items: start;
+    background: rgba(255, 255, 255, 0.98);
+    padding: 16px;
+    border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(2, 6, 23, 0.25);
+    max-width: 1100px;
+    width: calc(100% - 40px);
+}
+
+.search-card .field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    background: #f8fafc;
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid #e6eef6;
+    min-width: 140px;
+}
+
+.search-card .field label {
+    font-size: 12px;
+    color: #334155;
+}
+
+.search-card .field input,
+.search-card .field select {
+    padding: 8px 10px;
+    border-radius: 6px;
+    border: 1px solid #d1d5db;
+    font-size: 14px;
+}
+
+.field--large {
+    min-width: 220px;
+}
+
+.field--action {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 6px;
+}
+
+.btn-search {
+    background: var(--primary);
+    color: #fff;
+    padding: 12px 18px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    width: 100%;
+    max-width: 420px;
+}
+
+/* rent-type segmented control */
+.rent-toggle {
+    grid-column: 1 / -1;
+    display: inline-flex;
+    gap: 6px;
+    align-items: center;
+    justify-content: center;
+    background: rgba(15, 23, 42, 0.04);
+    padding: 6px;
+    border-radius: 10px;
+    margin-bottom: 6px;
+}
+
+.seg-btn {
+    appearance: none;
+    border: none;
+    background: transparent;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-weight: 600;
+    color: #0f172a;
+    cursor: pointer;
+    transition: background 0.18s, color 0.18s, transform 0.08s;
+}
+
+.seg-btn:active {
+    transform: translateY(1px);
+}
+
+.seg-btn.active {
+    background: var(--primary);
+    color: #fff;
+    box-shadow: 0 6px 18px rgba(37, 99, 235, 0.18);
+}
+
+@media (max-width: 900px) {
+    .search-card {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .search-card .field {
+        width: 100%;
+    }
+
+    .field--action {
+        justify-content: center;
+        grid-column: auto;
+    }
 }
 
 @media (max-width: 768px) {
     .home-page {
-        padding-top: 72px;
+        padding-top: 96px;
     }
 
-    .home-page h1 {
+    .home-overlay h1 {
         font-size: 2.25rem;
     }
 }

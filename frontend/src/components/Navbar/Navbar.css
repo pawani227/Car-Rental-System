@@ -87,7 +87,6 @@
     text-decoration: none;
     color: var(--text);
     font-size: var(--font-size);
-    font-weight: 500;
     position: relative;
     transition: 0.3s;
 }
