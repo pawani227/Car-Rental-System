@@ -1,17 +1,25 @@
 const express = require("express");
-const connectDB = require("./config/db"); // path correct කරගන්න
+const connectDB = require("./config/db");
+const vehicleRoute = require("./routes/vehicleRoute");
+const cors = require("cors");
 
 const app = express();
 
-// DB connect
+// 1. DB connect
 connectDB();
 
+// 2. Middleware (මෙය අනිවාර්යයෙන්ම Routes වලට කලින් තිබිය යුතුයි)
+app.use(cors());
 app.use(express.json());
+
+// 3. Routes
+app.use("/api/vehicles", vehicleRoute);
 
 app.get("/", (req, res) => {
   res.send("API Running 🚀");
 });
 
-app.listen(5000, () => {
-  console.log("Server running on port 5000");
+const PORT = 5000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
