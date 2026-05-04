@@ -1,0 +1,36 @@
+.home-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 80px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    overflow: hidden;
+}
+
+.home-page::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+}
+
+.home-page h1 {
+    position: relative;
+    z-index: 1;
+    color: white;
+    font-size: 3rem;
+}
+
+@media (max-width: 768px) {
+    .home-page {
+        padding-top: 72px;
+    }
+
+    .home-page h1 {
+        font-size: 2.25rem;
+    }
+}

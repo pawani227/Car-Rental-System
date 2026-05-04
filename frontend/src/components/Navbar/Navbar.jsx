@@ -1,9 +1,25 @@
 import "./Navbar.css";
-import navlogo from "../../assests/navlogo.png";
+import { useEffect, useState } from "react";
+import navlogo from "../../assets/navlogo.png";
 
 function Navbar() {
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll);
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <div className="navbar">
+    <div
+      className={`navbar ${isScrolled ? "navbar--scrolled" : "navbar--transparent"}`}
+    >
       <div className="nav-container">
         <a href="/" className="logo" aria-label="Car Rental home">
           <img src={navlogo} alt="Car Rental logo" />
@@ -11,7 +27,7 @@ function Navbar() {
         </a>
         <div className="nav-middle">
           <div className="nav-links">
-            <a href="#">Home</a>
+            <a href="/">Home</a>
             <a href="#">Vehicles</a>
             <a href="#">Bookings</a>
             <a href="#">Contact</a>
