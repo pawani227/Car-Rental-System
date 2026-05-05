@@ -1,0 +1,44 @@
+/* Features.css */
+.features-section {
+    background-color: #f8f9fa;
+    height: 80vh;
+    /* ඉතා ලා අළු පැහැති පසුබිමක් */
+}
+
+.feature-card {
+    transition: transform 0.3s ease;
+    background: transparent;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+}
+
+.icon-wrapper {
+    width: 120px;
+    height: 120px;
+    background-color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+    /* මෘදු සෙවනැල්ලක් */
+    border: 1px solid #eee;
+}
+
+.icon-wrapper i {
+    color: #0d6efd;
+    /* QuickDrive Blue */
+}
+
+.feature-card h4 {
+    color: #333;
+    font-size: 1.25rem;
+}
+
+.feature-card p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
