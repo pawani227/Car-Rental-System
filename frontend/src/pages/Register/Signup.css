@@ -1,46 +1,165 @@
-/* Signup.css */
 .auth-container {
     min-height: 100vh;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
-    background: linear-gradient(135deg, #f0f4f8 0%, #d9e2ec 100%);
-    padding: 20px;
+    padding: 110px 20px 32px;
+    background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.16), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(15, 23, 42, 0.08), transparent 32%),
+        linear-gradient(135deg, #eef4ff 0%, #f8fafc 52%, #edf2f7 100%);
 }
 
 .auth-card {
-    background: #ffffff;
-    border-radius: 15px;
-    padding: 40px;
+    position: relative;
     width: 100%;
-    max-width: 420px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    max-width: 720px;
+    border-radius: 24px;
+    padding: 22px;
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(18px);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.12);
+    overflow: hidden;
+}
+
+.auth-card::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto auto 0;
+    width: 160px;
+    height: 160px;
+    background: radial-gradient(circle, rgba(37, 99, 235, 0.18), transparent 70%);
+    pointer-events: none;
+}
+
+.auth-card--signup {
+    max-width: 720px;
+}
+
+.auth-header {
+    margin-bottom: 14px;
 }
 
 .auth-header h2 {
-    color: #0d6efd;
-    /* QuickDrive Blue */
-    margin-bottom: 10px;
+    color: #0f172a;
+    margin-bottom: 8px;
+    font-size: 1.75rem;
+}
+
+.auth-header p {
+    margin-bottom: 0;
+    color: #64748b !important;
+}
+
+.auth-form-table {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.auth-form-table .mb-3 {
+    display: grid;
+    grid-template-columns: 140px minmax(0, 1fr);
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 0 !important;
+}
+
+.auth-form-table .form-label {
+    margin-bottom: 0;
+    color: #334155;
+    font-weight: 700 !important;
+}
+
+.auth-form-table .custom-input,
+.auth-form-table select.custom-input {
+    width: 100%;
+}
+
+.auth-form-table .auth-form-grid__full {
+    grid-column: 1 / -1;
+    align-items: start;
+}
+
+.auth-form-table .auth-form-grid__full .form-label {
+    padding-top: 10px;
+}
+
+.auth-form-table .auth-form-grid__full .custom-input,
+.auth-form-table .auth-form-grid__full select.custom-input {
+    width: 100%;
+}
+
+.auth-form-table>.auth-form-grid__full,
+.auth-form-table>.text-danger,
+.auth-form-table>.btn {
+    grid-column: 1 / -1;
+}
+
+.auth-form-table>.btn {
+    margin-top: 4px !important;
+}
+
+.auth-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.auth-form-grid__full {
+    grid-column: 1 / -1;
 }
 
 .custom-input {
-    border-radius: 8px;
-    padding: 12px;
-    border: 1px solid #dee2e6;
-    background-color: #f8fafc;
-    transition: border-color 0.3s;
+    border-radius: 12px;
+    padding: 11px 12px;
+    border: 1px solid #d8e0ea;
+    background-color: rgba(248, 250, 252, 0.96);
+    transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.18s ease;
 }
 
 .custom-input:focus {
-    border-color: #0d6efd;
-    box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.1);
+    border-color: #2563eb;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
     outline: none;
+    transform: translateY(-1px);
 }
 
 .btn-primary {
-    background-color: #0d6efd;
-    border-radius: 8px;
-    padding: 12px;
-    font-weight: 600;
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    border-radius: 12px;
+    padding: 11px;
+    font-weight: 700;
     border: none;
+    box-shadow: 0 14px 28px rgba(37, 99, 235, 0.22);
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+    transform: translateY(-1px);
+}
+
+.auth-footer-text {
+    margin-top: 1.5rem !important;
+}
+
+@media (max-width: 768px) {
+    .auth-card {
+        padding: 18px;
+        border-radius: 22px;
+    }
+
+    .auth-container {
+        padding-top: 96px;
+    }
+
+    .auth-form-table .mb-3 {
+        grid-template-columns: 1fr;
+        gap: 6px;
+    }
+
+    .auth-form-grid {
+        grid-template-columns: 1fr;
+    }
 }

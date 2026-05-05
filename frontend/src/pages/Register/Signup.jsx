@@ -6,7 +6,7 @@ import "./Signup.css";
 const Signup = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    name: "",
+    username: "",
     email: "",
     password: "",
     role: "vehicle_owner",
@@ -43,21 +43,21 @@ const Signup = () => {
 
   return (
     <div className="auth-container">
-      <div className="auth-card shadow-lg">
+      <div className="auth-card auth-card--signup shadow-lg">
         <div className="auth-header text-center">
           <h2 className="fw-bold text-primary">Create Account</h2>
           <p className="text-muted">Join QuickDrive today</p>
         </div>
-        <form className="mt-4" onSubmit={handleSubmit}>
+        <form className="mt-4 auth-form-table" onSubmit={handleSubmit}>
           <div className="mb-3">
-            <label className="form-label small fw-bold">Full Name</label>
+            <label className="form-label small fw-bold">Username</label>
             <input
               type="text"
-              name="name"
-              value={formData.name}
+              name="username"
+              value={formData.username}
               onChange={handleChange}
               className="form-control custom-input"
-              placeholder="Enter your name"
+              placeholder="Pawani"
               required
             />
           </div>
@@ -111,7 +111,7 @@ const Signup = () => {
             />
           </div>
 
-          <div className="mb-3">
+          <div className="mb-3 auth-form-grid__full">
             <label className="form-label small fw-bold">Address</label>
             <input
               type="text"
@@ -134,16 +134,20 @@ const Signup = () => {
               placeholder="0771234567"
             />
           </div>
-          {error ? <p className="text-danger small mb-2">{error}</p> : null}
+          {error ? (
+            <p className="text-danger small mb-2 auth-form-grid__full">
+              {error}
+            </p>
+          ) : null}
           <button
             type="submit"
-            className="btn btn-primary w-100 fw-bold py-2 mt-3 shadow-sm"
+            className="btn btn-primary w-100 fw-bold py-2 mt-3 shadow-sm auth-form-grid__full"
             disabled={loading}
           >
             {loading ? "Creating..." : "Sign Up"}
           </button>
         </form>
-        <p className="text-center mt-4 mb-0 small">
+        <p className="text-center mt-5 mb-0 small auth-footer-text">
           Already have an account?
           <Link
             to="/login"
