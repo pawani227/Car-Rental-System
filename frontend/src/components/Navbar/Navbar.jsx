@@ -1,9 +1,12 @@
 import "./Navbar.css";
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import navlogo from "../../assets/navlogo.png";
 
 function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const location = useLocation();
+  const isResultsPage = location.pathname === "/search-results";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -18,7 +21,7 @@ function Navbar() {
 
   return (
     <div
-      className={`navbar ${isScrolled ? "navbar--scrolled" : "navbar--transparent"}`}
+      className={`navbar ${isScrolled || isResultsPage ? "navbar--scrolled" : "navbar--transparent"}`}
     >
       <div className="nav-container">
         <a href="/" className="logo" aria-label="Car Rental home">

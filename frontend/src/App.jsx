@@ -1,13 +1,21 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom"; // Router කොටස් import කරන්න
 import Navbar from "./components/Navbar/Navbar";
 import Home from "./pages/Home/Home";
+import SearchResults from "./pages/ResultsPage/SearchResults"; // අලුත් පිටුව import කරන්න
 import Footer from "./components/Footer/Footer";
 
 function App() {
   return (
-    <div className="App">
-      <Navbar />
-      <Home />
-    </div>
+    <BrowserRouter>
+      {" "}
+      <div className="App">
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/search-results" element={<SearchResults />} />
+        </Routes>
+      </div>
+    </BrowserRouter>
   );
 }
 

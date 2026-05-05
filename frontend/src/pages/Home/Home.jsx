@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom"; // 1. useNavigate import කරන්න
 import "./Home.css";
 import homeBg from "../../assets/homebg.jpg";
 import { searchVehicles } from "../../service/vehicleService";
@@ -7,6 +8,8 @@ function HomePage() {
   const [rentType, setRentType] = useState("vehicle");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  const navigate = useNavigate(); // 2. navigate function එක initialize කරන්න
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -25,7 +28,10 @@ function HomePage() {
 
       const results = await searchVehicles(searchParams);
       console.log("Search results:", results);
-      // TODO: Navigate to results page or show results on page
+
+      // 3. මෙතනදී '/search-results' කියන path එකට දත්ත යවන්න
+      // 'state' එක ඇතුළේ 'vehicles' නමින් results ටික යවනවා
+      navigate("/search-results", { state: { vehicles: results } });
     } catch (err) {
       setError(err.message || "Search failed");
       console.error("Search error:", err);
