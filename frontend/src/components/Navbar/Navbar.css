@@ -19,10 +19,6 @@
 }
 
 
-
-
-
-
 .navbar--transparent .nav-search input {
     background: rgba(255, 255, 255, 0.18);
     border-color: rgba(255, 255, 255, 0.28);
@@ -34,9 +30,52 @@
 }
 
 .navbar--scrolled {
-    background: var(--navbg);
-    border-bottom: 1px solid #e5e7eb;
-    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+    background: #000000;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+}
+
+.navbar--scrolled .logo-text,
+.navbar--scrolled .nav-links a {
+    color: #ffffff;
+}
+
+.navbar--scrolled .nav-links a::after {
+    background: #ffffff;
+}
+
+.navbar--scrolled .nav-links a:hover {
+    color: #ffffff;
+}
+
+.navbar--scrolled .nav-search input {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+    color: #ffffff;
+}
+
+.navbar--scrolled .nav-search input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.navbar--scrolled .btn-login {
+    border-color: #ffffff;
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.navbar--scrolled .btn-login:hover {
+    background: #ffffff;
+    color: #000000;
+}
+
+.navbar--scrolled .btn-signup {
+    background: #ffffff;
+    color: #000000;
+}
+
+.navbar--scrolled .btn-signup:hover {
+    background: #e5e5e5;
+    color: #000000;
 }
 
 .nav-middle {
@@ -124,6 +163,8 @@
     font-weight: 500;
     border: none;
     transition: 0.3s;
+    text-decoration: none;
+
 }
 
 /* login */
