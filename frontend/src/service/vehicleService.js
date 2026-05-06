@@ -12,6 +12,7 @@ export const searchVehicles = async (searchParams) => {
 
         startDate: searchParams.startDate,
         endDate: searchParams.endDate,
+        withDriver: searchParams.withDriver || false,
       },
     });
     return response.data;

@@ -2,7 +2,7 @@ const Vehicle = require("../models/Vehiclemodel");
 
 exports.getFilteredVehicles = async (req, res) => {
   try {
-    const { vehicleType, location, startDate, endDate, rentType } = req.query;
+    const { vehicleType, location, startDate, endDate, withDriver } = req.query;
     let query = {};
 
     // 1. වාහන වර්ගය අනුව filter කිරීම
@@ -15,9 +15,13 @@ exports.getFilteredVehicles = async (req, res) => {
       query.location = { $regex: location, $options: "i" };
     }
 
-    // 3. Rent type එක අනුව filter කිරීම (වැදගත්: frontend එකෙන් මේක එනවා නම් විතරක්)
-    if (rentType && rentType !== "") {
-      query.rentType = rentType;
+    // 3. Driver support එක අනුව filter කිරීම
+    // With driver = true නම් driver support තියෙන වාහන පමණක්
+    // Vehicle only = false නම් driver support නැති වාහන පමණක්
+    if (withDriver === "true") {
+      query.hasDriverSupport = true;
+    } else if (withDriver === "false") {
+      query.hasDriverSupport = false;
     }
 
     // Database එකෙන් මුලින්ම criteria වලට ගැලපෙන ඔක්කොම වාහන ටික ගන්නවා
