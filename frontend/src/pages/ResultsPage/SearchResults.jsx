@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useMemo } from "react";
 import { useLocation } from "react-router-dom";
 import "./SearchResults.css";
 
@@ -7,6 +7,7 @@ const SearchResults = () => {
   const vehicles = location.state?.vehicles || [];
   const rentType = location.state?.rentType || "vehicle";
   const showDriverPricing = rentType === "driver";
+  const [driverFilter, setDriverFilter] = useState("all");
 
   const calculatePrice = (vehicle) => {
     const basePrice = Number(vehicle.rentPerDay);
@@ -16,16 +17,48 @@ const SearchResults = () => {
     return basePrice;
   };
 
+  const filteredVehicles = useMemo(() => {
+    if (driverFilter === "all") {
+      return vehicles;
+    } else if (driverFilter === "with-driver") {
+      return vehicles.filter((v) => v.hasDriverSupport);
+    } else if (driverFilter === "without-driver") {
+      return vehicles.filter((v) => !v.hasDriverSupport);
+    }
+    return vehicles;
+  }, [vehicles, driverFilter]);
+
   return (
     <div className="results-page">
       <div className="results-page__header">
         <h2>Available Vehicles for You</h2>
-        <p>{vehicles.length} vehicles found</p>
+        <p>{filteredVehicles.length} vehicles found</p>
+
+        <div className="results-filter">
+          <button
+            className={`filter-btn ${driverFilter === "all" ? "active" : ""}`}
+            onClick={() => setDriverFilter("all")}
+          >
+            All Vehicles
+          </button>
+          <button
+            className={`filter-btn ${driverFilter === "with-driver" ? "active" : ""}`}
+            onClick={() => setDriverFilter("with-driver")}
+          >
+            With Driver Support
+          </button>
+          <button
+            className={`filter-btn ${driverFilter === "without-driver" ? "active" : ""}`}
+            onClick={() => setDriverFilter("without-driver")}
+          >
+            Without Driver
+          </button>
+        </div>
       </div>
 
       <div className="results-grid">
-        {vehicles.length > 0 ? (
-          vehicles.map((vehicle) => {
+        {filteredVehicles.length > 0 ? (
+          filteredVehicles.map((vehicle) => {
             const finalPrice = calculatePrice(vehicle);
 
             return (

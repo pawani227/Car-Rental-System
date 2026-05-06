@@ -21,6 +21,37 @@
     color: #64748b;
 }
 
+.results-filter {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 10px 16px;
+    background: #ffffff;
+    color: #475569;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.filter-btn:hover {
+    border-color: #2563eb;
+    color: #2563eb;
+}
+
+.filter-btn.active {
+    background: #2563eb;
+    color: #ffffff;
+    border-color: #2563eb;
+}
+
 .results-grid {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
