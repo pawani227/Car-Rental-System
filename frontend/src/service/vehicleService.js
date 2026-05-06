@@ -3,17 +3,22 @@ import api from "./api";
 // 1. Search filter එකට අනුව වාහන ලබා ගැනීම
 export const searchVehicles = async (searchParams) => {
   try {
-    const response = await api.get("/vehicles/getfilteredvehicles", {
-      params: {
-        location: searchParams.location,
-        // Frontend එකේ "Any" ලෙස ඇත්නම් එය filter නොකිරීමට හිස් අගයක් යවන්න
-        vehicleType:
-          searchParams.vehicleType === "Any" ? "" : searchParams.vehicleType,
+    const params = {
+      location: searchParams.location,
+      // Frontend එකේ "Any" ලෙස ඇත්නම් එය filter නොකිරීමට හිස් අගයක් යවන්න
+      vehicleType:
+        searchParams.vehicleType === "Any" ? "" : searchParams.vehicleType,
 
-        startDate: searchParams.startDate,
-        endDate: searchParams.endDate,
-        withDriver: searchParams.withDriver || false,
-      },
+      startDate: searchParams.startDate,
+      endDate: searchParams.endDate,
+    };
+
+    if (typeof searchParams.withDriver === "boolean") {
+      params.withDriver = searchParams.withDriver;
+    }
+
+    const response = await api.get("/vehicles/getfilteredvehicles", {
+      params,
     });
     return response.data;
   } catch (error) {

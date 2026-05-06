@@ -18,6 +18,11 @@ const vehicleSchema = new mongoose.Schema(
         to: { type: Date },
       },
     ],
+
+    owner_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User", // අර User model එකේ නම මෙතනට දෙන්න
+    },
   },
   { timestamps: true },
 );

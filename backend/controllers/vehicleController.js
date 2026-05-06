@@ -24,8 +24,9 @@ exports.getFilteredVehicles = async (req, res) => {
       query.hasDriverSupport = false;
     }
 
-    // Database එකෙන් මුලින්ම criteria වලට ගැලපෙන ඔක්කොම වාහන ටික ගන්නවා
-    const allVehicles = await Vehicle.find(query);
+    // Database එකෙන් criteria වලට ගැලපෙන වාහන ගන්නා ගමන්ම
+    // owner_id එක ඇතුළට අදාළ User ගේ විස්තර පුරවනවා (Populate)
+    const allVehicles = await Vehicle.find(query).populate("owner_id");
 
     // 4. දින සහ වේලාව අනුව (Availability) filter කිරීම
     if (startDate && endDate) {

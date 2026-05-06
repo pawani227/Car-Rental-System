@@ -1,14 +1,294 @@
-// src/pages/Vehicles/Vehicles.jsx
-
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
+import { searchVehicles } from "../../service/vehicleService";
+import "./Vehicles.css";
 
 const Vehicles = () => {
+  const [rentType, setRentType] = useState("all");
+  const [vehicles, setVehicles] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [vehicleType, setVehicleType] = useState("Any");
+  const [location, setLocation] = useState("");
+  const [fuelType, setFuelType] = useState("Any");
+  const [transmission, setTransmission] = useState("Any");
+  const [capacity, setCapacity] = useState("Any");
+
+  useEffect(() => {
+    const loadVehicles = async () => {
+      setLoading(true);
+      setError("");
+
+      try {
+        const results = await searchVehicles({
+          vehicleType: "Any",
+          location: "",
+          startDate: "",
+          endDate: "",
+        });
+
+        setVehicles(results);
+      } catch (err) {
+        setError(err.message || "Failed to load vehicles");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadVehicles();
+  }, []);
+
+  const filteredVehicles = useMemo(() => {
+    return vehicles.filter((vehicle) => {
+      const modeMatch =
+        rentType === "all"
+          ? true
+          : rentType === "driver"
+            ? vehicle.hasDriverSupport
+            : !vehicle.hasDriverSupport;
+
+      const typeMatch =
+        vehicleType === "Any"
+          ? true
+          : vehicle.vehicleType?.toLowerCase() === vehicleType.toLowerCase();
+
+      const locationMatch = location.trim()
+        ? vehicle.location
+            ?.toLowerCase()
+            .includes(location.trim().toLowerCase())
+        : true;
+
+      const fuelMatch =
+        fuelType === "Any"
+          ? true
+          : vehicle.fuelType?.toLowerCase() === fuelType.toLowerCase();
+
+      const transmissionMatch =
+        transmission === "Any"
+          ? true
+          : vehicle.transmission?.toLowerCase() === transmission.toLowerCase();
+
+      const capacityMatch =
+        capacity === "Any"
+          ? true
+          : capacity === "7+"
+            ? Number(vehicle.capacity) >= 7
+            : Number(vehicle.capacity) === Number(capacity);
+
+      return (
+        modeMatch &&
+        typeMatch &&
+        locationMatch &&
+        fuelMatch &&
+        transmissionMatch &&
+        capacityMatch
+      );
+    });
+  }, [
+    vehicles,
+    rentType,
+    vehicleType,
+    location,
+    fuelType,
+    transmission,
+    capacity,
+  ]);
+
+  const calculatePrice = (vehicle) => {
+    const basePrice = Number(vehicle.rentPerDay);
+    if (rentType === "driver" && vehicle.hasDriverSupport) {
+      return basePrice + (vehicle.driverFee || 0);
+    }
+    return basePrice;
+  };
+
   return (
-    <div className="middle-page">
-      <h1>All Vehicles</h1>
+    <div className="vehicles-page">
+      <div className="vehicles-page__header">
+        <h1>Vehicles</h1>
+        <p>
+          {rentType === "driver"
+            ? "Vehicles with driver support"
+            : rentType === "vehicle"
+              ? "Vehicle only listings"
+              : "Browse all vehicles"}
+        </p>
+
+        <div
+          className="vehicles-toggle"
+          role="tablist"
+          aria-label="Vehicle mode"
+        >
+          <button
+            type="button"
+            className={
+              rentType === "vehicle"
+                ? "vehicles-toggle__btn active"
+                : "vehicles-toggle__btn"
+            }
+            onClick={() => setRentType("vehicle")}
+          >
+            Vehicle only
+          </button>
+          <button
+            type="button"
+            className={
+              rentType === "driver"
+                ? "vehicles-toggle__btn active"
+                : "vehicles-toggle__btn"
+            }
+            onClick={() => setRentType("driver")}
+          >
+            With driver
+          </button>
+          <button
+            type="button"
+            className={
+              rentType === "all"
+                ? "vehicles-toggle__btn active"
+                : "vehicles-toggle__btn"
+            }
+            onClick={() => setRentType("all")}
+          >
+            All Vehicles
+          </button>
+        </div>
+
+        <div className="vehicles-filters">
+          <div className="vehicles-filter">
+            <label>Vehicle Type</label>
+            <select
+              value={vehicleType}
+              onChange={(e) => setVehicleType(e.target.value)}
+            >
+              <option value="Any">Any</option>
+              <option value="Sedan">Sedan</option>
+              <option value="SUV">SUV</option>
+              <option value="Van">Van</option>
+              <option value="Truck">Truck</option>
+              <option value="Bike">Bike</option>
+            </select>
+          </div>
+
+          <div className="vehicles-filter vehicles-filter--wide">
+            <label>Location</label>
+            <input
+              type="text"
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+              placeholder="Filter by location"
+            />
+          </div>
+
+          <div className="vehicles-filter">
+            <label>Fuel Type</label>
+            <select
+              value={fuelType}
+              onChange={(e) => setFuelType(e.target.value)}
+            >
+              <option value="Any">Any</option>
+              <option value="Diesel">Diesel</option>
+              <option value="Petrol">Petrol</option>
+              <option value="Hybrid">Hybrid</option>
+              <option value="Electric">Electric</option>
+            </select>
+          </div>
+
+          <div className="vehicles-filter">
+            <label>Transmission</label>
+            <select
+              value={transmission}
+              onChange={(e) => setTransmission(e.target.value)}
+            >
+              <option value="Any">Any</option>
+              <option value="Auto">Auto</option>
+              <option value="Manual">Manual</option>
+            </select>
+          </div>
+
+          <div className="vehicles-filter">
+            <label>Capacity</label>
+            <select
+              value={capacity}
+              onChange={(e) => setCapacity(e.target.value)}
+            >
+              <option value="Any">Any</option>
+              <option value="2">2</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="7">7</option>
+              <option value="7+">7+</option>
+            </select>
+          </div>
+
+          <button
+            type="button"
+            className="vehicles-filter__reset"
+            onClick={() => {
+              setRentType("all");
+              setVehicleType("Any");
+              setLocation("");
+              setFuelType("Any");
+              setTransmission("Any");
+              setCapacity("Any");
+            }}
+          >
+            Reset Filters
+          </button>
+        </div>
+      </div>
+
+      {loading ? (
+        <div className="vehicles-state">Loading vehicles...</div>
+      ) : error ? (
+        <div className="vehicles-state vehicles-state--error">{error}</div>
+      ) : (
+        <div className="vehicles-grid">
+          {filteredVehicles.length > 0 ? (
+            filteredVehicles.map((vehicle) => (
+              <article className="vehicle-card" key={vehicle._id}>
+                <div className="vehicle-card__imageWrap">
+                  <img
+                    src={vehicle.image}
+                    className="vehicle-card__image"
+                    alt={vehicle.name}
+                  />
+                </div>
+
+                <div className="vehicle-card__body">
+                  <h3 className="vehicle-card__title">{vehicle.name}</h3>
+                  <div className="vehicle-card__meta">
+                    <p>Location: {vehicle.location}</p>
+                    <p>Type: {vehicle.vehicleType}</p>
+                    {vehicle.transmission && (
+                      <p>Transmission: {vehicle.transmission}</p>
+                    )}
+                    {vehicle.fuelType && <p>Fuel: {vehicle.fuelType}</p>}
+                    {vehicle.capacity && <p>Capacity: {vehicle.capacity}</p>}
+                  </div>
+
+                  <h4 className="vehicle-card__price">
+                    Rs. {Number(calculatePrice(vehicle)).toLocaleString()} / day
+                  </h4>
+
+                  <p className="vehicle-card__note">
+                    {rentType === "driver" && vehicle.hasDriverSupport
+                      ? `Driver fee included: Rs. ${Number(vehicle.driverFee || 0).toLocaleString()}`
+                      : vehicle.hasDriverSupport
+                        ? "Driver support available"
+                        : "Vehicle only"}
+                  </p>
+
+                  <button className="vehicle-card__button">Book Now</button>
+                </div>
+              </article>
+            ))
+          ) : (
+            <div className="vehicles-state">No vehicles found.</div>
+          )}
+        </div>
+      )}
     </div>
   );
 };
 
-// මේ පේළිය අනිවාර්යයෙන්ම තිබිය යුතුයි
 export default Vehicles;
