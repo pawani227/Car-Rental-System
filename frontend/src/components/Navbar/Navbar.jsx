@@ -64,7 +64,7 @@ function Navbar() {
 
   return (
     <div
-      className={`navbar ${isScrolled || isAuthPage || location.pathname === "/Vehicles" ? "navbar--scrolled" : "navbar--transparent"}`}
+      className={`navbar ${isScrolled || isAuthPage || location.pathname === "/Vehicles" || location.pathname === "/bookings" || location.pathname === "/about" || location.pathname === "/owner" || location.pathname === "/search-results" || location.pathname === "/contact" ? "navbar--scrolled" : "navbar--transparent"}`}
     >
       <div className="nav-container">
         <Link to="/" className="logo" aria-label="Car Rental home">
