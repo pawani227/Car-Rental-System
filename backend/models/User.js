@@ -25,7 +25,7 @@ const userSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ["vehicle_owner", "customer", "admin"],
+      enum: ["owner", "customer", "admin"],
       default: "customer",
     },
     nicNumber: {

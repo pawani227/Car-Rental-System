@@ -76,8 +76,8 @@ function Navbar() {
             <Link to="/">Home</Link>
             <a href="#">Vehicles</a>
             <a href="#">Bookings</a>
-            <a href="#">Contact</a>
-            <a href="#">Our Services</a>
+            <a href="#">Who we are</a>
+            <a href="#">Become a Owner</a>
           </div>
 
           <div className="nav-search">

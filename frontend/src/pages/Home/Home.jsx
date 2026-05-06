@@ -23,6 +23,7 @@ function HomePage() {
         location: formData.get("location"),
         startDate: formData.get("start"),
         endDate: formData.get("end"),
+        withDriver: rentType === "driver",
         rentType: rentType,
       };
 
@@ -31,7 +32,9 @@ function HomePage() {
 
       // 3. මෙතනදී '/search-results' කියන path එකට දත්ත යවන්න
       // 'state' එක ඇතුළේ 'vehicles' නමින් results ටික යවනවා
-      navigate("/search-results", { state: { vehicles: results } });
+      navigate("/search-results", {
+        state: { vehicles: results, rentType },
+      });
     } catch (err) {
       setError(err.message || "Search failed");
       console.error("Search error:", err);
@@ -73,6 +76,7 @@ function HomePage() {
               <option value="suv">SUV</option>
               <option value="van">Van</option>
               <option value="truck">Truck</option>
+              <option value="bike">Bike</option>
             </select>
           </div>
 

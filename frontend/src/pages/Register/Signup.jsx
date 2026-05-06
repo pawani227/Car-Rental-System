@@ -9,7 +9,7 @@ const Signup = () => {
     username: "",
     email: "",
     password: "",
-    role: "vehicle_owner",
+    role: "customer",
     nicNumber: "",
     address: "",
     phoneNumber: "",
@@ -86,18 +86,7 @@ const Signup = () => {
             />
           </div>
 
-          <div className="mb-3">
-            <label className="form-label small fw-bold">Role</label>
-            <select
-              name="role"
-              value={formData.role}
-              onChange={handleChange}
-              className="form-control custom-input"
-            >
-              <option value="vehicle_owner">Vehicle Owner</option>
-              <option value="customer">Customer</option>
-            </select>
-          </div>
+         
 
           <div className="mb-3">
             <label className="form-label small fw-bold">NIC Number</label>
