@@ -5,6 +5,7 @@ import Login from "./pages/Login/Login";
 import Signup from "./pages/Register/Signup";
 import SearchResults from "./pages/ResultsPage/SearchResults"; // අලුත් පිටුව import කරන්න
 import Features from "./pages/Home/Features";
+import Vehicles from "./pages/Vehicles/Vehicles";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
             }
           />
           <Route path="/search-results" element={<SearchResults />} />
+          <Route path="/Vehicles" element={<Vehicles />} />
         </Routes>
       </div>
     </BrowserRouter>

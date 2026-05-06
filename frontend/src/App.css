@@ -1,0 +1,13 @@
+ .app-content {
+     min-height: 100vh;
+ }
+
+ .app-content--offset {
+     padding-top: 92px;
+ }
+
+ @media (max-width: 768px) {
+     .app-content--offset {
+         padding-top: 78px;
+     }
+ }

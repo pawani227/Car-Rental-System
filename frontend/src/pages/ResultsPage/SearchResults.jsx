@@ -29,7 +29,7 @@ const SearchResults = () => {
   }, [vehicles, driverFilter]);
 
   return (
-    <div className="results-page">
+    <div className="middle-page">
       <div className="results-page__header">
         <h2>Available Vehicles for You</h2>
         <p>{filteredVehicles.length} vehicles found</p>

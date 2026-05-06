@@ -64,7 +64,7 @@ function Navbar() {
 
   return (
     <div
-      className={`navbar ${isScrolled || isAuthPage ? "navbar--scrolled" : "navbar--transparent"}`}
+      className={`navbar ${isScrolled || isAuthPage || location.pathname === "/Vehicles" ? "navbar--scrolled" : "navbar--transparent"}`}
     >
       <div className="nav-container">
         <Link to="/" className="logo" aria-label="Car Rental home">
@@ -74,10 +74,10 @@ function Navbar() {
         <div className="nav-middle">
           <div className="nav-links">
             <Link to="/">Home</Link>
-            <a href="#">Vehicles</a>
-            <a href="#">Bookings</a>
-            <a href="#">Who we are</a>
-            <a href="#">Become a Owner</a>
+            <Link to="/Vehicles">Vehicles</Link>
+            <Link to="/bookings">Bookings</Link>
+            <Link to="/about">Who we are</Link>
+            <Link to="/owner">Become a Owner</Link>
           </div>
 
           <div className="nav-search">
