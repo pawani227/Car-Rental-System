@@ -1,0 +1,255 @@
+.confirm-booking {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 120px 20px 48px;
+}
+
+.confirm-booking__error {
+    text-align: center;
+    padding: 56px 20px;
+    color: #dc2626;
+}
+
+.confirm-booking__error h2 {
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+}
+
+.confirm-booking__error button {
+    background: #2563eb;
+    color: #ffffff;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.confirm-booking__error button:hover {
+    background: #1d4ed8;
+}
+
+.confirm-booking__container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: start;
+}
+
+/* Left Side - Vehicle Image */
+.confirm-booking__image-section {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.vehicle-image__wrapper {
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(15, 23, 42, 0.2);
+    height: 400px;
+}
+
+.vehicle-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.vehicle-info {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+}
+
+.vehicle-info h2 {
+    margin: 0 0 8px;
+    font-size: 1.8rem;
+    color: #0f172a;
+}
+
+.vehicle-type {
+    margin: 0 0 16px;
+    color: #64748b;
+    font-size: 1rem;
+}
+
+.vehicle-specs {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.spec {
+    color: #475569;
+    font-size: 0.95rem;
+}
+
+.spec strong {
+    color: #0f172a;
+    font-weight: 600;
+}
+
+.vehicle-price h3 {
+    margin: 0;
+    color: #2563eb;
+    font-size: 1.5rem;
+}
+
+/* Right Side - Owner Details */
+.confirm-booking__details-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.booking-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 36px;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+    border: 1px solid #e2e8f0;
+}
+
+.booking-card h2 {
+    margin: 0 0 28px;
+    font-size: 1.5rem;
+    color: #0f172a;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 16px;
+}
+
+.owner-details {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 32px;
+}
+
+.detail-item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.detail-item label {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #334155;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.detail-item p {
+    margin: 0;
+    font-size: 1rem;
+    color: #0f172a;
+    padding: 10px 14px;
+    background: #f8fafc;
+    border-radius: 8px;
+}
+
+/* Action Buttons */
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.btn {
+    border: none;
+    border-radius: 12px;
+    padding: 14px 20px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    transition: all 0.2s ease;
+}
+
+.btn-primary {
+    background: #2563eb;
+    color: #ffffff;
+}
+
+.btn-primary:hover:not(:disabled) {
+    background: #1d4ed8;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(37, 99, 235, 0.3);
+}
+
+.btn-primary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.btn-call {
+    background: #059669;
+    color: #ffffff;
+}
+
+.btn-call:hover {
+    background: #047857;
+    transform: translateY(-2px);
+}
+
+.btn-email {
+    background: #7c3aed;
+    color: #ffffff;
+}
+
+.btn-email:hover {
+    background: #6d28d9;
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background: #e2e8f0;
+    color: #334155;
+}
+
+.btn-secondary:hover {
+    background: #cbd5e1;
+    transform: translateY(-2px);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .confirm-booking__container {
+        grid-template-columns: 1fr;
+        gap: 32px;
+    }
+
+    .vehicle-image__wrapper {
+        height: 350px;
+    }
+}
+
+@media (max-width: 768px) {
+    .confirm-booking {
+        padding: 100px 16px 32px;
+    }
+
+    .booking-card {
+        padding: 24px;
+    }
+
+    .vehicle-image__wrapper {
+        height: 300px;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+    }
+
+    .btn {
+        padding: 12px 16px;
+        font-size: 0.95rem;
+    }
+}

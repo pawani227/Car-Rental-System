@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { searchVehicles } from "../../service/vehicleService";
+import { useNavigate } from "react-router-dom";
 import "./Vehicles.css";
 
 const Vehicles = () => {
@@ -12,6 +13,7 @@ const Vehicles = () => {
   const [fuelType, setFuelType] = useState("Any");
   const [transmission, setTransmission] = useState("Any");
   const [capacity, setCapacity] = useState("Any");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const loadVehicles = async () => {
@@ -99,6 +101,27 @@ const Vehicles = () => {
       return basePrice + (vehicle.driverFee || 0);
     }
     return basePrice;
+  };
+
+  const handleBookNow = (vehicle) => {
+    try {
+      if (!vehicle.owner_id) {
+        alert("Owner information not available");
+        return;
+      }
+
+      // Navigate to confirm booking page with vehicle and owner data
+      // owner_id already contains the full owner object due to populate() in backend
+      navigate("/confirm-booking", {
+        state: {
+          vehicle,
+          owner: vehicle.owner_id,
+        },
+      });
+    } catch (err) {
+      console.error("Booking error:", err);
+      alert("Failed to load owner details");
+    }
   };
 
   return (
@@ -278,7 +301,12 @@ const Vehicles = () => {
                         : "Vehicle only"}
                   </p>
 
-                  <button className="vehicle-card__button">Book Now</button>
+                  <button
+                    className="vehicle-card__button"
+                    onClick={() => handleBookNow(vehicle)}
+                  >
+                    Book Now
+                  </button>
                 </div>
               </article>
             ))

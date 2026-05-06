@@ -36,3 +36,13 @@ export const addVehicle = async (vehicleData) => {
     throw error.response?.data || { message: "Failed to add vehicle" };
   }
 };
+
+// 3. Owner details එක ඉතින ගෙන ඒම
+export const getOwnerDetails = async (ownerId) => {
+  try {
+    const response = await api.get(`/users/${ownerId}`);
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || { message: "Failed to fetch owner details" };
+  }
+};

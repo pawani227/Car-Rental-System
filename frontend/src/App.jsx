@@ -6,6 +6,7 @@ import Signup from "./pages/Register/Signup";
 import SearchResults from "./pages/ResultsPage/SearchResults"; // අලුත් පිටුව import කරන්න
 import Features from "./pages/Home/Features";
 import Vehicles from "./pages/Vehicles/Vehicles";
+import ConfirmBooking from "./pages/ConfirmBooking/confirmBooking";
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
           />
           <Route path="/search-results" element={<SearchResults />} />
           <Route path="/Vehicles" element={<Vehicles />} />
+          <Route path="/confirm-booking" element={<ConfirmBooking />} />
         </Routes>
       </div>
     </BrowserRouter>
