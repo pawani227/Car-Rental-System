@@ -299,6 +299,144 @@
     color: #888;
 }
 
+/* Hamburger (hidden on desktop) */
+.hamburger {
+    display: none;
+    width: 44px;
+    height: 44px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    position: fixed;
+    right: 20px;
+    top: 12px;
+    z-index: 3000;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 6px;
+    pointer-events: auto;
+}
+
+.hamburger span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: #ffffff;
+    border-radius: 2px;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.hamburger.is-open span:nth-child(1) {
+    transform: translateY(6px) rotate(45deg);
+}
+
+.hamburger.is-open span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.is-open span:nth-child(3) {
+    transform: translateY(-6px) rotate(-45deg);
+}
+
+/* Mobile menu overlay and panel */
+.mobile-menu {
+    position: fixed;
+    top: calc(56px + 0px);
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.35);
+    z-index: 1100;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.mobile-panel {
+    width: 320px;
+    max-width: 100%;
+    background: #ffffff;
+    padding: 20px;
+    box-shadow: -8px 0 30px rgba(2, 6, 23, 0.2);
+    z-index: 1101;
+    overflow-y: auto;
+}
+
+.mobile-menu {
+    position: fixed;
+}
+
+.mobile-links {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.mobile-links a {
+    text-decoration: none;
+    color: var(--text);
+    font-weight: 600;
+    padding: 8px 6px;
+}
+
+.mobile-search input {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    margin-bottom: 14px;
+}
+
+.mobile-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-direction: column;
+}
+
+.mobile-profile {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    width: 100%;
+}
+
+.mobile-profile .profile-avatar {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+}
+
+.mobile-profile-name {
+    font-weight: 700;
+}
+
+.mobile-user-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
+}
+
+.mobile-user-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.mobile-logout-small {
+    padding: 8px 10px;
+    border-radius: 8px;
+    background: #ef4444;
+    color: #ffffff;
+    border: none;
+    font-weight: 700;
+    cursor: pointer;
+}
+
 @media (max-width: 1100px) {
     .nav-middle {
         gap: 20px;
@@ -330,4 +468,98 @@
     .nav-container {
         justify-content: center;
     }
+
+    .hamburger {
+        display: inline-flex;
+    }
+}
+
+/* Ensure hamburger lines stay visible on transparent and scrolled navbars */
+.navbar--transparent .hamburger span,
+.navbar--scrolled .hamburger span {
+    background: #ffffff;
+}
+
+/* Mobile overlay and staggered link animations */
+.mobile-menu {
+    animation: overlayFade 0.22s ease both;
+}
+
+@keyframes overlayFade {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.mobile-panel {
+    animation: panelSlideIn 0.28s cubic-bezier(.2, .9, .2, 1) both;
+    transform: translateX(100%);
+}
+
+@keyframes panelSlideIn {
+    from {
+        transform: translateX(100%);
+    }
+
+    to {
+        transform: translateX(0);
+    }
+}
+
+.mobile-links a {
+    display: block;
+    opacity: 0;
+    transform: translateY(-10px);
+    animation: linkDrop 0.32s ease forwards;
+}
+
+@keyframes linkDrop {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.mobile-links a:nth-child(1) {
+    animation-delay: 0.04s;
+}
+
+.mobile-links a:nth-child(2) {
+    animation-delay: 0.12s;
+}
+
+.mobile-links a:nth-child(3) {
+    animation-delay: 0.20s;
+}
+
+.mobile-links a:nth-child(4) {
+    animation-delay: 0.28s;
+}
+
+.mobile-links a:nth-child(5) {
+    animation-delay: 0.36s;
+}
+
+.mobile-actions .btn,
+.mobile-actions .profile-dropdown__logout {
+    opacity: 0;
+    transform: translateY(-6px);
+    animation: linkDrop 0.32s ease forwards;
+}
+
+.mobile-actions .btn {
+    animation-delay: 0.44s;
+}
+
+.mobile-actions .profile-dropdown__logout {
+    animation-delay: 0.44s;
 }
