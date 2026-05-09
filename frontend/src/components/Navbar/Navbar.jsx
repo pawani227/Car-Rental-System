@@ -7,6 +7,7 @@ function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const profileMenuRef = useRef(null);
@@ -59,8 +60,18 @@ function Navbar() {
     localStorage.removeItem("userInfo");
     setUserInfo(null);
     setIsProfileOpen(false);
+    setMobileOpen(false);
     navigate("/");
   };
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 900) setMobileOpen(false);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
     <div
@@ -71,6 +82,19 @@ function Navbar() {
           <img src={navlogo} alt="Car Rental logo" />
           <span className="logo-text">QUICKDRIVE</span>
         </Link>
+        <button
+          className={`hamburger ${mobileOpen ? "is-open" : ""}`}
+          aria-label="Open menu"
+          aria-expanded={mobileOpen}
+          onClick={(e) => {
+            e.stopPropagation();
+            setMobileOpen((v) => !v);
+          }}
+        >
+          <span />
+          <span />
+          <span />
+        </button>
         <div className="nav-middle">
           <div className="nav-links">
             <Link to="/">Home</Link>
@@ -130,6 +154,79 @@ function Navbar() {
             )}
           </div>
         </div>
+        {mobileOpen ? (
+          <div
+            className="mobile-menu"
+            role="dialog"
+            aria-modal="true"
+            onClick={(e) => {
+              if (e.target === e.currentTarget) {
+                setMobileOpen(false);
+              }
+            }}
+          >
+            <div className="mobile-panel" onClick={(e) => e.stopPropagation()}>
+              <div className="mobile-search">
+                <input type="text" placeholder="Search cars..." />
+              </div>
+
+              <div className="mobile-links">
+                <Link to="/" onClick={() => setMobileOpen(false)}>
+                  Home
+                </Link>
+                <Link to="/Vehicles" onClick={() => setMobileOpen(false)}>
+                  Vehicles
+                </Link>
+                <Link to="/bookings" onClick={() => setMobileOpen(false)}>
+                  Bookings
+                </Link>
+                <Link to="/about" onClick={() => setMobileOpen(false)}>
+                  Who we are
+                </Link>
+                <Link to="/owner" onClick={() => setMobileOpen(false)}>
+                  Become a Owner
+                </Link>
+              </div>
+
+              <div className="mobile-actions">
+                {userInfo ? (
+                  <div className="mobile-user-row">
+                    <div className="mobile-user-info">
+                      <div className="profile-avatar">
+                        {displayName.slice(0, 1).toUpperCase()}
+                      </div>
+                      <div className="mobile-profile-name">{displayName}</div>
+                    </div>
+                    <button
+                      type="button"
+                      className="mobile-logout-small"
+                      onClick={handleLogout}
+                    >
+                      Logout
+                    </button>
+                  </div>
+                ) : (
+                  <>
+                    <Link
+                      to="/login"
+                      className="btn btn-login"
+                      onClick={() => setMobileOpen(false)}
+                    >
+                      Login
+                    </Link>
+                    <Link
+                      to="/register"
+                      className="btn btn-signup"
+                      onClick={() => setMobileOpen(false)}
+                    >
+                      Sign Up
+                    </Link>
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+        ) : null}
       </div>
     </div>
   );
