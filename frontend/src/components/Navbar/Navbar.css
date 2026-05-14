@@ -186,6 +186,14 @@
     color: #ffffff;
     font-weight: 800;
     box-shadow: 0 10px 20px rgba(37, 99, 235, 0.25);
+    overflow: hidden;
+}
+
+.profile-avatar__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
 }
 
 .profile-name {
@@ -238,6 +246,15 @@
 .profile-dropdown__logout:hover {
     background: #dc2626;
     transform: translateY(-1px);
+}
+
+.profile-dropdown__logout--secondary {
+    background: #0f172a;
+    margin-bottom: 8px;
+}
+
+.profile-dropdown__logout--secondary:hover {
+    background: #1e293b;
 }
 
 .btn {
@@ -411,6 +428,20 @@
 
 .mobile-profile-name {
     font-weight: 700;
+}
+
+.mobile-profile-edit {
+    border: none;
+    background: rgba(37, 99, 235, 0.12);
+    color: #2563eb;
+    border-radius: 999px;
+    padding: 8px 14px;
+    font-weight: 700;
+    margin-right: 10px;
+}
+
+.mobile-profile-edit:hover {
+    background: rgba(37, 99, 235, 0.18);
 }
 
 .mobile-user-row {
