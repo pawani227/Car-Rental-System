@@ -3,6 +3,7 @@ const connectDB = require("./config/db");
 const vehicleRoute = require("./routes/vehicleRoute");
 const userRoute = require("./routes/userRoutes");
 const reviewRoute = require("./routes/reviewRoutes");
+const bookingRoute = require("./routes/bookingRoutes");
 const cors = require("cors");
 
 const app = express();
@@ -20,6 +21,7 @@ app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 app.use("/api/vehicles", vehicleRoute);
 app.use("/api/users", userRoute);
 app.use("/api/reviews", reviewRoute);
+app.use("/api/bookings", bookingRoute);
 
 app.get("/", (req, res) => {
   res.send("API Running 🚀");
