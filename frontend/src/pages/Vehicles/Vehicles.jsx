@@ -14,6 +14,7 @@ const Vehicles = () => {
   const [transmission, setTransmission] = useState("Any");
   const [capacity, setCapacity] = useState("Any");
   const navigate = useNavigate();
+  const userInfo = JSON.parse(localStorage.getItem("userInfo") || "null");
 
   useEffect(() => {
     const loadVehicles = async () => {
@@ -105,6 +106,12 @@ const Vehicles = () => {
 
   const handleBookNow = (vehicle) => {
     try {
+      // Check if user is logged in
+      if (!userInfo) {
+        navigate("/login");
+        return;
+      }
+
       if (!vehicle.owner_id) {
         alert("Owner information not available");
         return;

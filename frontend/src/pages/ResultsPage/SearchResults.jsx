@@ -1,11 +1,13 @@
 import React, { useState, useMemo } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./SearchResults.css";
 
 const SearchResults = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const vehicles = location.state?.vehicles || [];
   const rentType = location.state?.rentType || "vehicle";
+  const userInfo = JSON.parse(localStorage.getItem("userInfo") || "null");
   const showDriverPricing = rentType === "driver";
   const [driverFilter, setDriverFilter] = useState("all");
 
@@ -15,6 +17,25 @@ const SearchResults = () => {
       return basePrice + (vehicle.driverFee || 0);
     }
     return basePrice;
+  };
+
+  const handleBookNow = (vehicle) => {
+    if (!userInfo) {
+      navigate("/login");
+      return;
+    }
+
+    if (!vehicle.owner_id) {
+      alert("Owner information not available");
+      return;
+    }
+
+    navigate("/confirm-booking", {
+      state: {
+        vehicle,
+        owner: vehicle.owner_id,
+      },
+    });
   };
 
   const filteredVehicles = useMemo(() => {
@@ -106,7 +127,12 @@ const SearchResults = () => {
                     Rs. {Number(finalPrice).toLocaleString()} / day
                   </h6>
 
-                  <button className="vehicle-card__button">Book Now</button>
+                  <button
+                    className="vehicle-card__button"
+                    onClick={() => handleBookNow(vehicle)}
+                  >
+                    Book Now
+                  </button>
                 </div>
               </article>
             );
