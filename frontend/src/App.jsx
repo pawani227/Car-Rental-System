@@ -5,6 +5,9 @@ import Login from "./pages/Login/Login";
 import Signup from "./pages/Register/Signup";
 import SearchResults from "./pages/ResultsPage/SearchResults"; // අලුත් පිටුව import කරන්න
 import Features from "./pages/Home/Features";
+import Counting from "./pages/Home/Counting";
+import MapSection from "./pages/Home/MapSection";
+import ReviewsSection from "./pages/Home/ReviewsSection";
 import Vehicles from "./pages/Vehicles/Vehicles";
 import ConfirmBooking from "./pages/ConfirmBooking/confirmBooking";
 import Profile from "./pages/Profile/Profile";
@@ -23,6 +26,9 @@ function App() {
               <>
                 <Home />
                 <Features />
+                <Counting />
+                <MapSection />
+                <ReviewsSection />
               </>
             }
           />
@@ -34,6 +40,9 @@ function App() {
               <>
                 <Home />
                 <Features />
+                <Counting />
+                <MapSection />
+                <ReviewsSection />
               </>
             }
           />
