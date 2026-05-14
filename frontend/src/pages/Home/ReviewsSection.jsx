@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import api from "../../service/api";
 import "./ReviewsSection.css";
 
 const defaultReviews = [
@@ -32,6 +33,7 @@ const storageKey = "quickdrive-reviews";
 
 function ReviewsSection() {
   const [reviews, setReviews] = useState(defaultReviews);
+  const [showAll, setShowAll] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     location: "",
@@ -40,19 +42,21 @@ function ReviewsSection() {
   });
 
   useEffect(() => {
-    const savedReviews = localStorage.getItem(storageKey);
-    if (savedReviews) {
+    let mounted = true;
+    const load = async () => {
       try {
-        setReviews(JSON.parse(savedReviews));
-      } catch {
-        setReviews(defaultReviews);
+        const res = await api.get("/reviews");
+        if (mounted && Array.isArray(res.data)) setReviews(res.data);
+      } catch (err) {
+        // fallback to defaults on error
+        if (mounted) setReviews(defaultReviews);
       }
-    }
+    };
+    load();
+    return () => {
+      mounted = false;
+    };
   }, []);
-
-  useEffect(() => {
-    localStorage.setItem(storageKey, JSON.stringify(reviews));
-  }, [reviews]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -69,16 +73,39 @@ function ReviewsSection() {
       return;
     }
 
-    const newReview = {
-      id: Date.now(),
+    const payload = {
       name: formData.name.trim(),
       location: formData.location.trim() || "Sri Lanka",
       rating: formData.rating,
       comment: formData.comment.trim(),
     };
 
-    setReviews((current) => [newReview, ...current]);
-    setFormData({ name: "", location: "", rating: 5, comment: "" });
+    // attach user id if available in localStorage
+    try {
+      const stored = localStorage.getItem("userInfo");
+      if (stored) {
+        const user = JSON.parse(stored);
+        if (user && user.id) payload.userId = user.id;
+      }
+    } catch {}
+
+    (async () => {
+      try {
+        const res = await api.post("/reviews", payload);
+        if (res && res.data) {
+          setReviews((current) => [res.data, ...current]);
+          setFormData({ name: "", location: "", rating: 5, comment: "" });
+        }
+      } catch (err) {
+        // on error, still optimistically add to list
+        const newReview = {
+          id: Date.now(),
+          ...payload,
+        };
+        setReviews((current) => [newReview, ...current]);
+        setFormData({ name: "", location: "", rating: 5, comment: "" });
+      }
+    })();
   };
 
   return (
@@ -158,13 +185,29 @@ function ReviewsSection() {
             </div>
 
             <div className="reviews-grid">
-              {reviews.map((review) => (
-                <article className="review-card" key={review.id}>
+              {(showAll ? reviews : reviews.slice(0, 4)).map((review, idx) => (
+                <article
+                  className="review-card"
+                  key={review._id || review.id || idx}
+                >
                   <div className="review-card-top">
                     <div>
                       <h4>{review.name}</h4>
                       <p>{review.location}</p>
                     </div>
+                    {reviews.length > 4 && (
+                      <div className="reviews-toggle">
+                        <button
+                          type="button"
+                          className="see-more-btn"
+                          onClick={() => setShowAll((s) => !s)}
+                        >
+                          {showAll
+                            ? "Show less"
+                            : `See more (${reviews.length - 4})`}
+                        </button>
+                      </div>
+                    )}
                     <div
                       className="review-stars"
                       aria-label={`${review.rating} star rating`}
