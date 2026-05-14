@@ -184,6 +184,18 @@ function ReviewsSection() {
               <span>{reviews.length} total</span>
             </div>
 
+            {reviews.length > 4 && (
+              <div className="reviews-toggle reviews-toggle-top">
+                <button
+                  type="button"
+                  className="see-more-btn"
+                  onClick={() => setShowAll((s) => !s)}
+                >
+                  {showAll ? "Show less" : `See more (${reviews.length - 4})`}
+                </button>
+              </div>
+            )}
+
             <div className="reviews-grid">
               {(showAll ? reviews : reviews.slice(0, 4)).map((review, idx) => (
                 <article
@@ -195,19 +207,6 @@ function ReviewsSection() {
                       <h4>{review.name}</h4>
                       <p>{review.location}</p>
                     </div>
-                    {reviews.length > 4 && (
-                      <div className="reviews-toggle">
-                        <button
-                          type="button"
-                          className="see-more-btn"
-                          onClick={() => setShowAll((s) => !s)}
-                        >
-                          {showAll
-                            ? "Show less"
-                            : `See more (${reviews.length - 4})`}
-                        </button>
-                      </div>
-                    )}
                     <div
                       className="review-stars"
                       aria-label={`${review.rating} star rating`}

@@ -145,6 +145,38 @@
     gap: 14px;
 }
 
+.reviews-toggle {
+    margin: 12px 0;
+}
+
+.reviews-toggle-top {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.see-more-btn {
+    border: none;
+    border-radius: 12px;
+    padding: 8px 12px;
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    color: #ffffff;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 12px 22px rgba(37, 99, 235, 0.14);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+}
+
+.see-more-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 28px rgba(37, 99, 235, 0.18);
+}
+
+@media (max-width: 640px) {
+    .reviews-toggle-top {
+        justify-content: center;
+    }
+}
+
 .review-card {
     padding: 18px;
     border-radius: 18px;
