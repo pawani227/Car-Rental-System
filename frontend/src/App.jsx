@@ -7,6 +7,7 @@ import SearchResults from "./pages/ResultsPage/SearchResults"; // අලුත�
 import Features from "./pages/Home/Features";
 import Vehicles from "./pages/Vehicles/Vehicles";
 import ConfirmBooking from "./pages/ConfirmBooking/confirmBooking";
+import Profile from "./pages/Profile/Profile";
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
           <Route path="/search-results" element={<SearchResults />} />
           <Route path="/Vehicles" element={<Vehicles />} />
           <Route path="/confirm-booking" element={<ConfirmBooking />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
       </div>
     </BrowserRouter>
