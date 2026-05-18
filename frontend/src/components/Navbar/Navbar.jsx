@@ -2,12 +2,15 @@ import "./Navbar.css";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import navlogo from "../../assets/navlogo.png";
+import { searchVehicles } from "../../service/vehicleService";
 
 function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [vehicleCatalog, setVehicleCatalog] = useState([]);
   const location = useLocation();
   const navigate = useNavigate();
   const profileMenuRef = useRef(null);
@@ -21,6 +24,28 @@ function Navbar() {
   }, [userInfo]);
 
   const profileImage = userInfo?.profileImage || "";
+
+  const vehicleSuggestions = useMemo(() => {
+    const names = vehicleCatalog
+      .map((vehicle) => vehicle?.name)
+      .filter((name) => typeof name === "string" && name.trim());
+
+    return Array.from(new Set(names)).sort((first, second) =>
+      first.localeCompare(second),
+    );
+  }, [vehicleCatalog]);
+
+  const visibleSuggestions = useMemo(() => {
+    const query = searchQuery.trim().toLowerCase();
+
+    if (!query) {
+      return vehicleSuggestions.slice(0, 8);
+    }
+
+    return vehicleSuggestions
+      .filter((name) => name.toLowerCase().includes(query))
+      .slice(0, 8);
+  }, [searchQuery, vehicleSuggestions]);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
@@ -39,6 +64,27 @@ function Navbar() {
       window.removeEventListener("storage", syncUser);
     };
   }, [location.pathname]);
+
+  useEffect(() => {
+    let isActive = true;
+
+    const loadVehicleCatalog = async () => {
+      try {
+        const vehicles = await searchVehicles({});
+        if (isActive) {
+          setVehicleCatalog(Array.isArray(vehicles) ? vehicles : []);
+        }
+      } catch (error) {
+        console.error("Failed to load navbar search suggestions:", error);
+      }
+    };
+
+    loadVehicleCatalog();
+
+    return () => {
+      isActive = false;
+    };
+  }, []);
 
   useEffect(() => {
     const handleOutsideClick = (event) => {
@@ -68,6 +114,23 @@ function Navbar() {
     setIsProfileOpen(false);
     setMobileOpen(false);
     navigate("/");
+  };
+
+  const handleNavbarSearch = (event) => {
+    event.preventDefault();
+
+    const query = searchQuery.trim().toLowerCase();
+    const filteredVehicles = query
+      ? vehicleCatalog.filter((vehicle) =>
+          vehicle?.name?.toLowerCase().includes(query),
+        )
+      : vehicleCatalog;
+
+    navigate("/search-results", {
+      state: { vehicles: filteredVehicles, rentType: "vehicle" },
+    });
+
+    setMobileOpen(false);
   };
 
   const solidPaths = [
@@ -119,8 +182,26 @@ function Navbar() {
           </div>
 
           <div className="nav-search">
-            <input type="text" placeholder="Search cars..." />
+            <form className="nav-search__form" onSubmit={handleNavbarSearch}>
+              <input
+                type="text"
+                placeholder="Search vehicle names..."
+                list="navbar-vehicle-suggestions"
+                value={searchQuery}
+                onChange={(event) => setSearchQuery(event.target.value)}
+                autoComplete="off"
+              />
+              <button type="submit" className="nav-search__button">
+                Search
+              </button>
+            </form>
           </div>
+
+          <datalist id="navbar-vehicle-suggestions">
+            {visibleSuggestions.map((vehicleName) => (
+              <option key={vehicleName} value={vehicleName} />
+            ))}
+          </datalist>
 
           <div className="nav-actions" ref={profileMenuRef}>
             {userInfo ? (
@@ -198,7 +279,19 @@ function Navbar() {
           >
             <div className="mobile-panel" onClick={(e) => e.stopPropagation()}>
               <div className="mobile-search">
-                <input type="text" placeholder="Search cars..." />
+                <form className="mobile-search__form" onSubmit={handleNavbarSearch}>
+                  <input
+                    type="text"
+                    placeholder="Search vehicle names..."
+                    list="navbar-vehicle-suggestions"
+                    value={searchQuery}
+                    onChange={(event) => setSearchQuery(event.target.value)}
+                    autoComplete="off"
+                  />
+                  <button type="submit" className="mobile-search__button">
+                    Search
+                  </button>
+                </form>
               </div>
 
               <div className="mobile-links">

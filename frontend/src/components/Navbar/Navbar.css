@@ -276,6 +276,13 @@
 .nav-search {
     display: flex;
     align-items: center;
+    position: relative;
+}
+
+.nav-search__form {
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .nav-search input {
@@ -286,6 +293,39 @@
     font-size: 14px;
     width: 200px;
     transition: 0.3s;
+}
+
+.nav-search__button,
+.mobile-search__button {
+    border: none;
+    border-radius: 20px;
+    padding: 8px 14px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+    white-space: nowrap;
+}
+
+.nav-search__button {
+    background: var(--primary);
+    color: #ffffff;
+}
+
+.nav-search__button:hover,
+.mobile-search__button:hover {
+    transform: translateY(-1px);
+}
+
+.navbar--transparent .nav-search__button {
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.28);
+}
+
+.navbar--scrolled .nav-search__button {
+    background: #ffffff;
+    color: #0f172a;
 }
 
 /* focus effect */
@@ -386,7 +426,22 @@
     padding: 10px 12px;
     border-radius: 10px;
     border: 1px solid #ddd;
+}
+
+.mobile-search__form {
+    display: flex;
+    gap: 8px;
+    align-items: center;
     margin-bottom: 14px;
+}
+
+.mobile-search__form input {
+    flex: 1;
+}
+
+.mobile-search__button {
+    background: var(--primary);
+    color: #ffffff;
 }
 
 .mobile-actions {
@@ -485,6 +540,17 @@
 
     .hamburger {
         display: inline-flex;
+    }
+}
+
+@media (max-width: 900px) {
+    .mobile-search__form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .mobile-search__button {
+        width: 100%;
     }
 }
 
