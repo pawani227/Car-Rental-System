@@ -13,7 +13,11 @@ const Vehicles = () => {
   const [fuelType, setFuelType] = useState("Any");
   const [transmission, setTransmission] = useState("Any");
   const [capacity, setCapacity] = useState("Any");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [availabilityChecks, setAvailabilityChecks] = useState({});
   const navigate = useNavigate();
+  const userInfo = JSON.parse(localStorage.getItem("userInfo") || "null");
 
   useEffect(() => {
     const loadVehicles = async () => {
@@ -38,6 +42,30 @@ const Vehicles = () => {
 
     loadVehicles();
   }, []);
+
+  useEffect(() => {
+    // Check availability for all vehicles when dates change
+    if (startDate && endDate) {
+      const checkAllAvailability = async () => {
+        const checks = {};
+        for (const vehicle of vehicles) {
+          try {
+            const res = await fetch(
+              `http://localhost:5000/api/bookings/check-availability?vehicleId=${vehicle._id}&startDate=${startDate}&endDate=${endDate}`,
+            );
+            const data = await res.json();
+            checks[vehicle._id] = data.available;
+          } catch (err) {
+            checks[vehicle._id] = true; // assume available on error
+          }
+        }
+        setAvailabilityChecks(checks);
+      };
+      checkAllAvailability();
+    } else {
+      setAvailabilityChecks({});
+    }
+  }, [startDate, endDate, vehicles]);
 
   const filteredVehicles = useMemo(() => {
     return vehicles.filter((vehicle) => {
@@ -76,13 +104,20 @@ const Vehicles = () => {
             ? Number(vehicle.capacity) >= 7
             : Number(vehicle.capacity) === Number(capacity);
 
+      // Check availability if dates are selected
+      const availabilityMatch =
+        !startDate || !endDate
+          ? true
+          : availabilityChecks[vehicle._id] !== false;
+
       return (
         modeMatch &&
         typeMatch &&
         locationMatch &&
         fuelMatch &&
         transmissionMatch &&
-        capacityMatch
+        capacityMatch &&
+        availabilityMatch
       );
     });
   }, [
@@ -93,6 +128,9 @@ const Vehicles = () => {
     fuelType,
     transmission,
     capacity,
+    startDate,
+    endDate,
+    availabilityChecks,
   ]);
 
   const calculatePrice = (vehicle) => {
@@ -105,6 +143,12 @@ const Vehicles = () => {
 
   const handleBookNow = (vehicle) => {
     try {
+      // Check if user is logged in
+      if (!userInfo) {
+        navigate("/login");
+        return;
+      }
+
       if (!vehicle.owner_id) {
         alert("Owner information not available");
         return;
@@ -210,6 +254,24 @@ const Vehicles = () => {
             />
           </div>
 
+          <div className="vehicles-filter vehicles-filter--date vehicles-filter--highlight">
+            <label>Pickup Date</label>
+            <input
+              type="date"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+            />
+          </div>
+
+          <div className="vehicles-filter vehicles-filter--date vehicles-filter--highlight">
+            <label>Dropoff Date</label>
+            <input
+              type="date"
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+            />
+          </div>
+
           <div className="vehicles-filter">
             <label>Fuel Type</label>
             <select
@@ -262,6 +324,8 @@ const Vehicles = () => {
               setFuelType("Any");
               setTransmission("Any");
               setCapacity("Any");
+              setStartDate("");
+              setEndDate("");
             }}
           >
             Reset Filters

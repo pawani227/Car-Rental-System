@@ -43,40 +43,7 @@
     background: #ffffff;
 }
 
-.navbar--scrolled .nav-links a:hover {
-    color: #ffffff;
-}
 
-.navbar--scrolled .nav-search input {
-    background: rgba(255, 255, 255, 0.15);
-    border-color: rgba(255, 255, 255, 0.3);
-    color: #ffffff;
-}
-
-.navbar--scrolled .nav-search input::placeholder {
-    color: rgba(255, 255, 255, 0.7);
-}
-
-.navbar--scrolled .btn-login {
-    border-color: #ffffff;
-    color: #ffffff;
-    background: rgba(255, 255, 255, 0.15);
-}
-
-.navbar--scrolled .btn-login:hover {
-    background: #ffffff;
-    color: #000000;
-}
-
-.navbar--scrolled .btn-signup {
-    background: #ffffff;
-    color: #000000;
-}
-
-.navbar--scrolled .btn-signup:hover {
-    background: #e5e5e5;
-    color: #000000;
-}
 
 .nav-middle {
     display: flex;
@@ -186,6 +153,14 @@
     color: #ffffff;
     font-weight: 800;
     box-shadow: 0 10px 20px rgba(37, 99, 235, 0.25);
+    overflow: hidden;
+}
+
+.profile-avatar__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
 }
 
 .profile-name {
@@ -240,37 +215,62 @@
     transform: translateY(-1px);
 }
 
-.btn {
+.profile-dropdown__logout--secondary {
+    background: #0f172a;
+    margin-bottom: 8px;
+}
+
+.profile-dropdown__logout--secondary:hover {
+    background: #1e293b;
+}
+
+.nav-actions .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    /* padding එක මෙතනින් පාලනය කරන්න - !important ඉවත් කර ඇත */
     padding: 10px 16px;
-    border-radius: 20px 20px;
+    border-radius: 20px;
     cursor: pointer;
     font-weight: 500;
-    border: none;
-    transition: 0.3s;
+    font-size: 14px;
+    border: 1px solid transparent;
+    transition: all 0.3s ease;
     text-decoration: none;
-
+    line-height: 1;
+    /* text එක මැදට එන්න උදව් වේ */
 }
 
 /* login */
-.btn-login {
+.nav-actions .btn-login {
     background: transparent;
-    border: 1px solid var(--primary);
+    border-color: var(--primary);
     color: var(--primary);
+}
+
+/* Navbar එක Scrolled හෝ Transparent වෙලාවට Login Button එක සුදු පාට විය යුතු නම් */
+.navbar--transparent .nav-actions .btn-login,
+.navbar--scrolled .nav-actions .btn-login {
+    border-color: #ffffff;
+    color: #ffffff;
 }
 
 .btn-login:hover {
     background: var(--primary);
     color: var(--white);
+    border-color: var(--primary);
 }
 
-/* signup */
-.btn-signup {
+/* Signup Button */
+.nav-actions .btn-signup {
     background: var(--primary);
     color: var(--white);
+    border-color: var(--primary);
 }
 
 .btn-signup:hover {
     background: #1d4ed8;
+    border-color: #1d4ed8;
 }
 
 .nav-search {
@@ -411,6 +411,20 @@
 
 .mobile-profile-name {
     font-weight: 700;
+}
+
+.mobile-profile-edit {
+    border: none;
+    background: rgba(37, 99, 235, 0.12);
+    color: #2563eb;
+    border-radius: 999px;
+    padding: 8px 14px;
+    font-weight: 700;
+    margin-right: 10px;
+}
+
+.mobile-profile-edit:hover {
+    background: rgba(37, 99, 235, 0.18);
 }
 
 .mobile-user-row {

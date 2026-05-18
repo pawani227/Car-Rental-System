@@ -20,11 +20,10 @@ function Navbar() {
     return userInfo.username || userInfo.name || "User";
   }, [userInfo]);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
+  const profileImage = userInfo?.profileImage || "";
 
+  useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY > 20);
     const syncUser = () => {
       const storedUser = localStorage.getItem("userInfo");
       setUserInfo(storedUser ? JSON.parse(storedUser) : null);
@@ -35,7 +34,6 @@ function Navbar() {
     syncUser();
     window.addEventListener("scroll", handleScroll);
     window.addEventListener("storage", syncUser);
-
     return () => {
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("storage", syncUser);
@@ -56,6 +54,14 @@ function Navbar() {
     return () => document.removeEventListener("mousedown", handleOutsideClick);
   }, []);
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 900) setMobileOpen(false);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const handleLogout = () => {
     localStorage.removeItem("userInfo");
     setUserInfo(null);
@@ -64,24 +70,31 @@ function Navbar() {
     navigate("/");
   };
 
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth > 900) setMobileOpen(false);
-    };
+  const solidPaths = [
+    "/Vehicles",
+    "/bookings",
+    "/about",
+    "/owner",
+    "/search-results",
+    "/contact",
+    "/confirm-booking",
+    "/profile",
+  ];
 
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  const isSolidPath = solidPaths.includes(location.pathname);
+  const navbarVariant =
+    isScrolled || isAuthPage || isSolidPath
+      ? "navbar--scrolled"
+      : "navbar--transparent";
 
   return (
-    <div
-      className={`navbar ${isScrolled || isAuthPage || location.pathname === "/Vehicles" || location.pathname === "/bookings" || location.pathname === "/about" || location.pathname === "/owner" || location.pathname === "/search-results" || location.pathname === "/contact" || location.pathname === "/confirm-booking" ? "navbar--scrolled" : "navbar--transparent"}`}
-    >
+    <div className={`navbar ${navbarVariant}`}>
       <div className="nav-container">
         <Link to="/" className="logo" aria-label="Car Rental home">
           <img src={navlogo} alt="Car Rental logo" />
           <span className="logo-text">QUICKDRIVE</span>
         </Link>
+
         <button
           className={`hamburger ${mobileOpen ? "is-open" : ""}`}
           aria-label="Open menu"
@@ -95,6 +108,7 @@ function Navbar() {
           <span />
           <span />
         </button>
+
         <div className="nav-middle">
           <div className="nav-links">
             <Link to="/">Home</Link>
@@ -114,17 +128,25 @@ function Navbar() {
                 <button
                   type="button"
                   className="profile-trigger"
-                  onClick={() => setIsProfileOpen((current) => !current)}
+                  onClick={() => setIsProfileOpen((c) => !c)}
                   aria-expanded={isProfileOpen}
                   aria-label="Open profile menu"
                 >
                   <span className="profile-avatar">
-                    {displayName.slice(0, 1).toUpperCase()}
+                    {profileImage ? (
+                      <img
+                        src={profileImage}
+                        alt="Profile"
+                        className="profile-avatar__image"
+                      />
+                    ) : (
+                      displayName.slice(0, 1).toUpperCase()
+                    )}
                   </span>
                   <span className="profile-name">{displayName}</span>
                 </button>
 
-                {isProfileOpen ? (
+                {isProfileOpen && (
                   <div className="profile-dropdown">
                     <div className="profile-dropdown__header">
                       <span className="profile-dropdown__label">
@@ -134,13 +156,23 @@ function Navbar() {
                     </div>
                     <button
                       type="button"
+                      className="profile-dropdown__logout profile-dropdown__logout--secondary"
+                      onClick={() => {
+                        setIsProfileOpen(false);
+                        navigate("/profile");
+                      }}
+                    >
+                      Edit profile
+                    </button>
+                    <button
+                      type="button"
                       className="profile-dropdown__logout"
                       onClick={handleLogout}
                     >
                       Logout
                     </button>
                   </div>
-                ) : null}
+                )}
               </div>
             ) : (
               <>
@@ -154,15 +186,14 @@ function Navbar() {
             )}
           </div>
         </div>
-        {mobileOpen ? (
+
+        {mobileOpen && (
           <div
             className="mobile-menu"
             role="dialog"
             aria-modal="true"
             onClick={(e) => {
-              if (e.target === e.currentTarget) {
-                setMobileOpen(false);
-              }
+              if (e.target === e.currentTarget) setMobileOpen(false);
             }}
           >
             <div className="mobile-panel" onClick={(e) => e.stopPropagation()}>
@@ -193,10 +224,28 @@ function Navbar() {
                   <div className="mobile-user-row">
                     <div className="mobile-user-info">
                       <div className="profile-avatar">
-                        {displayName.slice(0, 1).toUpperCase()}
+                        {profileImage ? (
+                          <img
+                            src={profileImage}
+                            alt="Profile"
+                            className="profile-avatar__image"
+                          />
+                        ) : (
+                          displayName.slice(0, 1).toUpperCase()
+                        )}
                       </div>
                       <div className="mobile-profile-name">{displayName}</div>
                     </div>
+                    <button
+                      type="button"
+                      className="mobile-profile-edit"
+                      onClick={() => {
+                        setMobileOpen(false);
+                        navigate("/profile");
+                      }}
+                    >
+                      Edit profile
+                    </button>
                     <button
                       type="button"
                       className="mobile-logout-small"
@@ -226,7 +275,7 @@ function Navbar() {
               </div>
             </div>
           </div>
-        ) : null}
+        )}
       </div>
     </div>
   );

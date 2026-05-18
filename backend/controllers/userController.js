@@ -12,6 +12,7 @@ const registerUser = async (req, res) => {
       nicNumber = null,
       address = null,
       phoneNumber = null,
+      profileImage = null,
       isVerified = false,
       createdAt,
     } = req.body;
@@ -41,6 +42,7 @@ const registerUser = async (req, res) => {
       nicNumber,
       address,
       phoneNumber,
+      profileImage,
       isVerified: !!isVerified,
     };
 
@@ -56,6 +58,7 @@ const registerUser = async (req, res) => {
         name: user.name,
         email: user.email,
         role: user.role,
+        profileImage: user.profileImage,
       },
     });
   } catch (error) {
@@ -93,6 +96,7 @@ const loginUser = async (req, res) => {
         name: user.name,
         email: user.email,
         role: user.role,
+        profileImage: user.profileImage,
       },
     });
   } catch (error) {
@@ -105,7 +109,7 @@ const getUserById = async (req, res) => {
     const { userId } = req.params;
 
     const user = await User.findById(userId).select(
-      "name email phoneNumber address username",
+      "name email phoneNumber address username profileImage nicNumber role",
     );
 
     if (!user) {
@@ -119,6 +123,75 @@ const getUserById = async (req, res) => {
       phoneNumber: user.phoneNumber,
       address: user.address,
       username: user.username,
+      profileImage: user.profileImage,
+      nicNumber: user.nicNumber,
+      role: user.role,
+    });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+const updateUserProfile = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { username, name, phoneNumber, address, nicNumber, profileImage } =
+      req.body;
+
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    if (typeof username === "string" && username.trim()) {
+      user.username = username.trim();
+      user.name = username.trim();
+    }
+
+    if (typeof name === "string" && name.trim()) {
+      user.name = name.trim();
+    }
+
+    if (typeof phoneNumber === "string") {
+      user.phoneNumber = phoneNumber.trim() || null;
+    }
+
+    if (typeof address === "string") {
+      user.address = address.trim() || null;
+    }
+
+    if (typeof nicNumber === "string") {
+      user.nicNumber = nicNumber.trim() || null;
+    }
+
+    if (typeof profileImage === "string") {
+      // Reject extremely large data URLs to avoid storing huge blobs in DB
+      const maxChars = 2_000_000; // ~2MB of characters (base64 will be larger than binary)
+      if (profileImage.length > maxChars) {
+        return res
+          .status(413)
+          .json({ message: "Profile image too large (max ~2MB)." });
+      }
+
+      user.profileImage = profileImage || null;
+    }
+
+    await user.save();
+
+    return res.status(200).json({
+      message: "Profile updated successfully",
+      user: {
+        id: user._id,
+        username: user.username,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        phoneNumber: user.phoneNumber,
+        address: user.address,
+        nicNumber: user.nicNumber,
+        profileImage: user.profileImage,
+      },
     });
   } catch (error) {
     return res.status(500).json({ message: error.message });
@@ -129,4 +202,5 @@ module.exports = {
   registerUser,
   loginUser,
   getUserById,
+  updateUserProfile,
 };
