@@ -72,11 +72,11 @@ function HomePage() {
             <label>Vehicle Type</label>
             <select name="vehicle">
               <option value="any">Any</option>
-              <option value="sedan">Sedan</option>
-              <option value="suv">SUV</option>
-              <option value="van">Van</option>
-              <option value="truck">Truck</option>
-              <option value="bike">Bike</option>
+              <option value="Suzuki Alto">Sedan</option>
+              <option value="Toyota  Land Cruiser">SUV</option>
+              <option value="Nissan Sunny">Van</option>
+              <option value="Honda Civic">Truck</option>
+              <option value="Toyota Corolla">Bike</option>
             </select>
           </div>
 

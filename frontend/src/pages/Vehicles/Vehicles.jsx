@@ -184,11 +184,19 @@ const Vehicles = () => {
               onChange={(e) => setVehicleType(e.target.value)}
             >
               <option value="Any">Any</option>
-              <option value="Sedan">Sedan</option>
-              <option value="SUV">SUV</option>
-              <option value="Van">Van</option>
-              <option value="Truck">Truck</option>
-              <option value="Bike">Bike</option>
+              <option value="Honda">Honda Civic</option>
+              <option value="Vezel">Vezel</option>
+              <option value="LandCruiser">Toyota Land Cruiser</option>
+              <option value="Toyota">Toyota Corolla</option>
+              <option value="BMW">BMW 5 Series</option>
+              <option value="Alto">Suzuki Alto</option>
+              <option value="Vitz">Toyota Vitz</option>
+              <option value="HondaFit">Honda Fit</option>
+              <option value="Audi">Audi A4</option>
+              <option value="Benz">Benz</option>
+              <option value="BYD">BYD Dolphin</option>
+              <option value="Nissan">Nissan Leaf</option>
+              <option value="Tesla">Tesla Model 3</option>
             </select>
           </div>
 
@@ -223,8 +231,9 @@ const Vehicles = () => {
               onChange={(e) => setTransmission(e.target.value)}
             >
               <option value="Any">Any</option>
-              <option value="Auto">Auto</option>
+              <option value="Auto">Automatic</option>
               <option value="Manual">Manual</option>
+              <option value="Semi">Semi-Automatic</option>
             </select>
           </div>
 
@@ -236,10 +245,10 @@ const Vehicles = () => {
             >
               <option value="Any">Any</option>
               <option value="2">2</option>
+              <option value="3">3</option>
               <option value="4">4</option>
               <option value="5">5</option>
-              <option value="7">7</option>
-              <option value="7+">7+</option>
+              <option value="6">6</option>
             </select>
           </div>
 
