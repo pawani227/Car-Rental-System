@@ -279,7 +279,10 @@ function Navbar() {
           >
             <div className="mobile-panel" onClick={(e) => e.stopPropagation()}>
               <div className="mobile-search">
-                <form className="mobile-search__form" onSubmit={handleNavbarSearch}>
+                <form
+                  className="mobile-search__form"
+                  onSubmit={handleNavbarSearch}
+                >
                   <input
                     type="text"
                     placeholder="Search vehicle names..."
