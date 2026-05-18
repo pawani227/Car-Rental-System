@@ -44,6 +44,17 @@ const ConfirmBooking = () => {
           <div className="vehicle-info">
             <h2>{vehicle.name}</h2>
             <p className="vehicle-type">{vehicle.vehicleType}</p>
+            <span
+              className={`vehicle-badge ${
+                vehicle.hasDriverSupport
+                  ? "vehicle-badge--driver"
+                  : "vehicle-badge--no-driver"
+              }`}
+            >
+              {vehicle.hasDriverSupport
+                ? "With Driver Support"
+                : "Without Driver"}
+            </span>
             <div className="vehicle-specs">
               {vehicle.transmission && (
                 <span className="spec">
