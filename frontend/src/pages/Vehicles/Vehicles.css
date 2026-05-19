@@ -188,11 +188,6 @@
     color: #0f172a;
 }
 
-.vehicle-card__meta p {
-    margin: 0 0 6px;
-    color: #475569;
-    font-size: 0.95rem;
-}
 
 .vehicle-card__price {
     margin: 0;

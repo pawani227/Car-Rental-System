@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { searchVehicles } from "../../service/vehicleService";
 import { useNavigate } from "react-router-dom";
 import "./Vehicles.css";
+import VehicleDetailsModal from "../../components/VehicleDetailsModal/VehicleDetailsModal";
 
 const Vehicles = () => {
   const [rentType, setRentType] = useState("all");
@@ -18,6 +19,7 @@ const Vehicles = () => {
   const [availabilityChecks, setAvailabilityChecks] = useState({});
   const navigate = useNavigate();
   const userInfo = JSON.parse(localStorage.getItem("userInfo") || "null");
+  const [detailsVehicle, setDetailsVehicle] = useState(null);
 
   useEffect(() => {
     const loadVehicles = async () => {
@@ -343,16 +345,6 @@ const Vehicles = () => {
 
                 <div className="vehicle-card__body">
                   <h3 className="vehicle-card__title">{vehicle.name}</h3>
-                  <div className="vehicle-card__meta">
-                    <p>Location: {vehicle.location}</p>
-                    <p>Type: {vehicle.vehicleType}</p>
-                    {vehicle.transmission && (
-                      <p>Transmission: {vehicle.transmission}</p>
-                    )}
-                    {vehicle.fuelType && <p>Fuel: {vehicle.fuelType}</p>}
-                    {vehicle.capacity && <p>Capacity: {vehicle.capacity}</p>}
-                  </div>
-
                   <h4 className="vehicle-card__price">
                     Rs. {Number(calculatePrice(vehicle)).toLocaleString()} / day
                   </h4>
@@ -365,12 +357,21 @@ const Vehicles = () => {
                         : "Vehicle only"}
                   </p>
 
-                  <button
-                    className="vehicle-card__button"
-                    onClick={() => handleBookNow(vehicle)}
-                  >
-                    Book Now
-                  </button>
+                  <div className="vehicle-card__actions">
+                    <button
+                      className="vehicle-card__button"
+                      onClick={() => handleBookNow(vehicle)}
+                    >
+                      Book Now
+                    </button>
+
+                    <button
+                      className="vehicle-card__secondary-button"
+                      onClick={() => setDetailsVehicle(vehicle)}
+                    >
+                      See Details
+                    </button>
+                  </div>
                 </div>
               </article>
             ))
@@ -378,6 +379,13 @@ const Vehicles = () => {
             <div className="vehicles-state">No vehicles found.</div>
           )}
         </div>
+      )}
+
+      {detailsVehicle && (
+        <VehicleDetailsModal
+          vehicle={detailsVehicle}
+          onClose={() => setDetailsVehicle(null)}
+        />
       )}
     </div>
   );
