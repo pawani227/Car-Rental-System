@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./SearchResults.css";
+import VehicleDetailsModal from "../../components/VehicleDetailsModal/VehicleDetailsModal";
 
 const SearchResults = () => {
   const location = useLocation();
@@ -10,6 +11,7 @@ const SearchResults = () => {
   const userInfo = JSON.parse(localStorage.getItem("userInfo") || "null");
   const showDriverPricing = rentType === "driver";
   const [driverFilter, setDriverFilter] = useState("all");
+  const [detailsVehicle, setDetailsVehicle] = useState(null);
 
   const calculatePrice = (vehicle) => {
     const basePrice = Number(vehicle.rentPerDay);
@@ -127,12 +129,21 @@ const SearchResults = () => {
                     Rs. {Number(finalPrice).toLocaleString()} / day
                   </h6>
 
-                  <button
-                    className="vehicle-card__button"
-                    onClick={() => handleBookNow(vehicle)}
-                  >
-                    Book Now
-                  </button>
+                  <div className="vehicle-card__actions">
+                    <button
+                      className="vehicle-card__button"
+                      onClick={() => handleBookNow(vehicle)}
+                    >
+                      Book Now
+                    </button>
+
+                    <button
+                      className="vehicle-card__secondary-button"
+                      onClick={() => setDetailsVehicle(vehicle)}
+                    >
+                      See Details
+                    </button>
+                  </div>
                 </div>
               </article>
             );
@@ -143,6 +154,13 @@ const SearchResults = () => {
           </div>
         )}
       </div>
+
+      {detailsVehicle && (
+        <VehicleDetailsModal
+          vehicle={detailsVehicle}
+          onClose={() => setDetailsVehicle(null)}
+        />
+      )}
     </div>
   );
 };
