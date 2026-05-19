@@ -7,6 +7,11 @@ const reviewSchema = new mongoose.Schema(
       ref: "User",
       required: false,
     },
+    vehicle: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "vehicles",
+      required: false,
+    },
     name: { type: String, required: true },
     location: { type: String, default: null },
     rating: { type: Number, required: true, min: 1, max: 5 },

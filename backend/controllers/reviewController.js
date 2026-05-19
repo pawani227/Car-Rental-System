@@ -2,7 +2,7 @@ const Review = require("../models/Review");
 
 const createReview = async (req, res) => {
   try {
-    const { name, location, rating, comment, userId } = req.body;
+    const { name, location, rating, comment, userId, vehicleId } = req.body;
 
     if (!name || !rating || !comment) {
       return res.status(400).json({ message: "Missing required fields" });
@@ -16,6 +16,7 @@ const createReview = async (req, res) => {
     };
 
     if (userId) reviewData.user = userId;
+    if (vehicleId) reviewData.vehicle = vehicleId;
 
     const review = await Review.create(reviewData);
 
@@ -27,9 +28,14 @@ const createReview = async (req, res) => {
 
 const getReviews = async (req, res) => {
   try {
-    const reviews = await Review.find()
+    const { vehicleId } = req.query;
+    const query = {};
+    if (vehicleId) query.vehicle = vehicleId;
+
+    const reviews = await Review.find(query)
       .sort({ createdAt: -1 })
-      .populate("user", "name username profileImage");
+      .populate("user", "name username profileImage")
+      .populate("vehicle", "name");
 
     return res.status(200).json(reviews);
   } catch (error) {
