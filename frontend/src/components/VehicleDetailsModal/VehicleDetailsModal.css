@@ -1,0 +1,278 @@
+.vmodal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: grid;
+    place-items: center;
+    z-index: 2200;
+}
+
+.vmodal-panel {
+    width: 920px;
+    max-width: calc(100% - 40px);
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 30px 60px rgba(2, 6, 23, 0.4);
+    overflow: hidden;
+}
+
+.vmodal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 20px;
+    border-bottom: 1px solid #eef2f7;
+}
+
+.vmodal-header h3 {
+    margin: 0;
+    font-size: 1.25rem;
+}
+
+.vmodal-close {
+    border: none;
+    background: transparent;
+    font-size: 1.6rem;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.vmodal-panel {
+    width: 920px;
+    max-width: calc(100% - 40px);
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 30px 60px rgba(2, 6, 23, 0.4);
+    overflow: hidden;
+    max-height: 86vh;
+}
+
+.vmodal-body {
+    display: flex;
+    gap: 18px;
+    padding: 20px;
+    /* allow scrolling when content larger than viewport */
+    overflow-y: auto;
+    max-height: calc(70vh - 120px);
+    /* account for header + footer */
+}
+
+.vmodal-image {
+    width: 360px;
+    height: 240px;
+    background: #f8fafc;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.vmodal-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.vmodal-details {
+    flex: 1;
+    color: #0f172a;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    font-size: 0.96rem;
+}
+
+/* Ensure details column scrolls when content is long, keeping panel size fixed */
+.vmodal-details {
+    overflow-y: auto;
+    max-height: calc(84vh - 160px);
+    padding-right: 8px;
+    /* avoid scrollbar overlapping content */
+}
+
+.vmodal-rating-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 6px;
+}
+
+.vmodal-rating .star-full {
+    color: #f59e0b;
+    font-size: 1.05rem;
+    margin-right: 2px;
+}
+
+.vmodal-rating .star-empty {
+    color: #e6e7eb;
+    font-size: 1.05rem;
+    margin-right: 2px;
+}
+
+.vmodal-rating-count {
+    color: #64748b;
+    font-size: 0.95rem;
+}
+
+.vmodal-feature-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin: 6px 0 0;
+    align-items: start;
+}
+
+.vmodal-feature {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #f8fafc;
+    padding: 8px 10px;
+    border-radius: 999px;
+    border: 1px solid #e6eef6;
+    font-weight: 600;
+    color: #0f172a;
+}
+
+.vmodal-feature-icon {
+    font-size: 1.25rem;
+    line-height: 1;
+}
+
+.vmodal-thumb-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.vmodal-thumb {
+    width: 64px;
+    height: 44px;
+    object-fit: cover;
+    border-radius: 6px;
+    cursor: pointer;
+    border: 1px solid #e6eef6;
+}
+
+.vmodal-docs ul {
+    margin: 6px 0 0;
+    padding-left: 18px;
+}
+
+.vmodal-section {
+    background: #f8fafc;
+    border: 1px solid #e6eef6;
+    border-radius: 12px;
+    padding: 14px 16px;
+}
+
+.vmodal-section h4 {
+    margin: 0 0 10px;
+    font-size: 0.98rem;
+    color: #0f172a;
+}
+
+.vmodal-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 10px;
+}
+
+.vmodal-info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    padding: 10px 12px;
+    background: #ffffff;
+    border: 1px solid #e6eef6;
+    border-radius: 10px;
+}
+
+.vmodal-info-item--highlight {
+    background: linear-gradient(180deg, #eff6ff 0%, #ffffff 100%);
+    border-color: #bfdbfe;
+}
+
+.vmodal-info-label {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #64748b;
+    font-weight: 700;
+}
+
+.vmodal-info-value {
+    font-size: 0.95rem;
+    color: #0f172a;
+    font-weight: 700;
+}
+
+.vmodal-section.vmodal-desc p {
+    margin: 0;
+    color: #475569;
+    line-height: 1.55;
+}
+
+.vmodal-section.vmodal-docs ul {
+    margin-top: 0;
+}
+
+.vmodal-fullscreen {
+    position: fixed;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 2222;
+}
+
+.vmodal-fullscreen img {
+    max-width: 96%;
+    max-height: 92%;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+.vmodal-desc p {
+    margin: 6px 0 0;
+    color: #475569;
+}
+
+.vmodal-footer {
+    padding: 14px 20px;
+    display: flex;
+    justify-content: flex-end;
+    border-top: 1px solid #eef2f7;
+}
+
+.vmodal-close-btn {
+    border: none;
+    background: #2563eb;
+    color: #ffffff;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+/* Buttons for vehicle cards */
+.vehicle-card__actions {
+    display: flex;
+    gap: 10px;
+    margin-top: auto;
+}
+
+.vehicle-card__secondary-button {
+    border: none;
+    border-radius: 12px;
+    padding: 10px 12px;
+    background: #f1f5f9;
+    color: #0f172a;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.vehicle-card__secondary-button:hover {
+    background: #e2e8f0;
+}
